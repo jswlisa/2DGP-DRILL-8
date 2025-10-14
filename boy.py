@@ -29,10 +29,9 @@ class AutoRun:
         self.boy = boy
 
     def enter(self,e):
-        if right_down(e) or left_up(e):
-            self.boy.dir = self.boy.face_dir=1
-        elif left_down(e) or right_up(e):
-            self.boy.dir =self.boy.face_dir= -1
+        if a_down(e):
+            self.boy.dir = self.boy.face_dir = 1
+
 
     def exit(self,e):
         pass
@@ -43,9 +42,9 @@ class AutoRun:
 
     def draw(self):
         if self.boy.face_dir == 1: # right
-            self.boy.image.clip_draw(self.boy.frame * 100, 100, 100, 100, self.boy.x , self.boy.y ,250,250)
+            self.boy.image.clip_draw(self.boy.frame * 100, 100, 100, 100, self.boy.x , self.boy.y + 40 , 250, 250)
         else: # face_dir == -1: # left
-            self.boy.image.clip_draw(self.boy.frame * 100, 0, 100, 100, self.boy.x, self.boy.y,250,250)
+            self.boy.image.clip_draw(self.boy.frame * 100, 0, 100, 100, self.boy.x, self.boy.y + 40, 250, 250)
 
 
 class Run:
@@ -55,9 +54,9 @@ class Run:
 
     def enter(self,e):
         if right_down(e) or left_up(e):
-            self.boy.dir = self.boy.face_dir=1
+            self.boy.dir = self.boy.face_dir = 1
         elif left_down(e) or right_up(e):
-            self.boy.dir =self.boy.face_dir= -1
+            self.boy.dir =self.boy.face_dir = -1
 
     def exit(self,e):
         pass
