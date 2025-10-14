@@ -33,10 +33,11 @@ class AutoRun:
 
     def enter(self,e):
         if a_down(e) or a_up(e):
-            if(self.boy.x < 750):
+            if(self.boy.face_dir == 1):
                 self.boy.dir = self.boy.face_dir = 1
             else:
                 self.boy.dir = self.boy.face_dir = -1
+
 
 
     def exit(self,e):
@@ -47,8 +48,10 @@ class AutoRun:
         self.boy.x += self.boy.dir * 5
         if self.boy.x < 50:
             self.boy.x = 50
+            self.boy.dir = self.boy.face_dir = 1
         elif self.boy.x > 750:
             self.boy.x = 750
+            self.boy.dir = self.boy.face_dir = -1
 
     def draw(self):
         if self.boy.face_dir == 1: # right
