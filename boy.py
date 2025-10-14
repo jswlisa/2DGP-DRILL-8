@@ -24,13 +24,19 @@ def left_up(e):
 def a_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
 
+def a_up(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_a
+
 class AutoRun:
     def __init__(self, boy):
         self.boy = boy
 
     def enter(self,e):
-        if a_down(e):
-            self.boy.dir = self.boy.face_dir = 1
+        if a_down(e) or a_up(e):
+            if(self.boy.x < 750):
+                self.boy.dir = self.boy.face_dir = 1
+            else:
+                self.boy.dir = self.boy.face_dir = -1
 
 
     def exit(self,e):
@@ -39,6 +45,10 @@ class AutoRun:
     def do(self):
         self.boy.frame = (self.boy.frame + 1) % 8
         self.boy.x += self.boy.dir * 5
+        if self.boy.x < 50:
+            self.boy.x = 50
+        elif self.boy.x > 750:
+            self.boy.x = 750
 
     def draw(self):
         if self.boy.face_dir == 1: # right
@@ -134,9 +144,10 @@ class Boy:
             self.IDLE,
             {
                 self.SLEEP : {space_down : self.IDLE},
-                self.IDLE : {time_out: self.SLEEP, right_up: self.RUN, right_down : self.RUN, left_up: self.RUN, left_down : self.RUN, a_down : self.AUTO_RUN},
+                self.IDLE : {time_out: self.SLEEP, right_up: self.RUN, right_down : self.RUN, left_up: self.RUN,
+                             left_down : self.RUN, a_down : self.AUTO_RUN},
                 self.RUN : {right_down: self.IDLE, right_up: self.IDLE, left_down: self.IDLE,left_up:self.IDLE},
-                self.AUTO_RUN : {right_up: self.RUN, right_down : self.RUN, left_up: self.RUN, left_down : self.RUN}
+                self.AUTO_RUN : {right_up: self.RUN, right_down : self.RUN, left_up: self.RUN, left_down : self.RUN, a_up : self.AUTO_RUN}
             })
 
 
