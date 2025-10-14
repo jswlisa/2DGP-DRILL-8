@@ -1,5 +1,5 @@
 from pico2d import load_image, get_time
-from sdl2 import SDL_KEYDOWN, SDLK_SPACE, SDLK_RIGHT, SDL_KEYUP, SDLK_LEFT
+from sdl2 import SDL_KEYDOWN, SDLK_SPACE, SDLK_RIGHT, SDL_KEYUP, SDLK_LEFT, SDLK_a
 
 from state_machine import StateMachine
 #이벤트를 체크하는 함수들을 구현
@@ -20,6 +20,9 @@ def left_down(e):
 
 def left_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
+
+def a_down(e):
+    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
 
 class AutoRun:
     def __init__(self, boy):
@@ -127,12 +130,14 @@ class Boy:
         self.IDLE = Idle(self)
         self.SLEEP = Sleep(self) #새로운 슬립 상태 생성
         self.RUN = Run(self)
+        self.AUTO_RUN = AutoRun(self)
         self.state_machine = StateMachine(
             self.IDLE,
             {
                 self.SLEEP : {space_down : self.IDLE},
-                self.IDLE : {time_out: self.SLEEP, right_up: self.RUN, right_down : self.RUN, left_up: self.RUN, left_down : self.RUN},
-                self.RUN : {right_down: self.IDLE, right_up: self.IDLE, left_down: self.IDLE,left_up:self.IDLE}
+                self.IDLE : {time_out: self.SLEEP, right_up: self.RUN, right_down : self.RUN, left_up: self.RUN, left_down : self.RUN, a_down : self.AUTO_RUN},
+                self.RUN : {right_down: self.IDLE, right_up: self.IDLE, left_down: self.IDLE,left_up:self.IDLE},
+                self.AUTO_RUN : {right_up: self.RUN, right_down : self.RUN, left_up: self.RUN, left_down : self.RUN}
             })
 
 
