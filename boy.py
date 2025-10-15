@@ -24,16 +24,13 @@ def left_up(e):
 def a_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
 
-def a_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_a
-
 class AutoRun:
 
     def __init__(self, boy):
         self.boy = boy
 
     def enter(self,e):
-        if a_down(e) or a_up(e):
+        if a_down(e):
             if(self.boy.face_dir == 1):
                 self.boy.dir = self.boy.face_dir = 1
             else:
@@ -156,7 +153,7 @@ class Boy:
                              left_down : self.RUN, a_down : self.AUTO_RUN},
                 self.RUN : {right_down: self.IDLE, right_up: self.IDLE, left_down: self.IDLE,left_up:self.IDLE},
                 self.AUTO_RUN : {time_out : self.IDLE,right_up: self.RUN, right_down : self.RUN, left_up: self.RUN,
-                                 left_down : self.RUN, a_up : self.AUTO_RUN}
+                                 left_down : self.RUN}
             })
 
     def update(self):
