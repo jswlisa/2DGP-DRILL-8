@@ -1,7 +1,7 @@
 from pico2d import load_image, get_time
 from sdl2 import SDL_KEYDOWN, SDLK_SPACE, SDLK_RIGHT, SDL_KEYUP, SDLK_LEFT, SDLK_a
-
 from state_machine import StateMachine
+
 #이벤트를 체크하는 함수들을 구현
 def space_down(e):
     return e[0] =='INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE
@@ -28,6 +28,7 @@ def a_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_a
 
 class AutoRun:
+
     def __init__(self, boy):
         self.boy = boy
 
@@ -135,6 +136,7 @@ class Idle:
 
 
 class Boy:
+
     def __init__(self):
         self.x, self.y = 400, 90
         self.frame = 0
@@ -156,7 +158,6 @@ class Boy:
                 self.AUTO_RUN : {time_out : self.IDLE,right_up: self.RUN, right_down : self.RUN, left_up: self.RUN,
                                  left_down : self.RUN, a_up : self.AUTO_RUN}
             })
-
 
     def update(self):
         self.state_machine.update()
